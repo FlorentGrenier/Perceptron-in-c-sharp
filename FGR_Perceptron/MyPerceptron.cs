@@ -75,12 +75,32 @@ namespace FGR_Perceptron
                 {
                     for (int k = 0; k < Weights.Length; k++)
                     {
-                        output += (Inputs[i, j] * Weights[k]);
+                        output += ( Weights[k] * Inputs[i, j]);
                     }
                 }
             }
 
             return output
+        }
+
+        public Double ForwardPropagnation()
+        {
+            Double[] comp;
+            Double[] yPred;
+
+            for (int i = 0; i < Inputs.Length; i++)
+            {
+                for (int j = 0; j < Inputs.Length; j++)
+                {
+                    for (int k = 0; k < Weights.Length; k++)
+                    {
+                        comp = (Weights[k] * Inputs[i, j]) + 1;
+
+                        yPred = 1 / 1 + Math.Exp(comp);
+                    }
+                }
+            }
+
         }
 
         public void LearningRule()
