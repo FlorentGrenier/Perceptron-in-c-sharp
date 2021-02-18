@@ -16,16 +16,20 @@ namespace FGR_Perceptron
         // Sortie attendues
         public int[] ExcepetedOutputs { get; set; }
         public Double[] Weights { get;  set; }
-        public double LearningRate { get; set; }
-        public double TotalError { get; set; }
-        public double Bias { get; set; }
+       
+        public Double TotalError { get; set; }
+        public Double Bias { get; set; }
 
         public int LenghtArrayInput { get; set; }
+
+        public int Iterations { get; set; }
+        public Double LearningRate { get; set; }
+
+
 
 
         public void Perceptron(int[,] inputs, int[,] excepetedoutputs)
         {
-            
             Inputs = inputs;
 
             // HyperParameters
@@ -40,11 +44,35 @@ namespace FGR_Perceptron
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public Double Sigmoid(Double x)
+        {
+            return 1 / (1 + Math.Exp(-x));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public Double SigmoidDeriv(Double x)
+        {
+            return Math.Exp((-x) / Math.Pow((1 + Math.Exp(-x)), 2));
+        }
+
+
+
+        /// <summary>
+        /// LengthDimensionArray()
         /// Obtient le nombre d'élèments dans une dimension d'un tableau multidimensionnel 
         /// </summary>
         /// <param name="array">Tableau attendus</param>
+        /// <param name="dimension">Dimension du tableau</param>
         /// <returns>Retourne le nombre d'élèments dans une dimension</returns>
-        public  int LengthDimensionArray(Array array, int dimension)
+        public int LengthDimensionArray(Array array, int dimension)
         {
             int lenght = 0;
 
@@ -54,17 +82,27 @@ namespace FGR_Perceptron
 
         }
 
-        public void SynaspseWeights(int numbSynaspse)
+        /// <summary>
+        /// SynaspseWeights()
+        /// Attribue un poids à chaque synapse
+        /// </summary>
+        /// <param name="numbSynapse">Nombre de synapse</param>
+        public void SynaspseWeights(int numbSynapse)
         {
             Random r = new Random();
 
-            for (int i = 0; i < numbSynaspse; i++)
+            for (int i = 0; i < numbSynapse; i++)
             {
                 Weights[i] = r.NextDouble();
             }
 
         }
 
+        /// <summary>
+        /// CalculOutput()
+        /// Cacul la sortie du neuronne
+        /// </summary>
+        /// <returns></returns>
         public Double CalculOutput()
         {
             Double output = 0;
@@ -80,37 +118,49 @@ namespace FGR_Perceptron
                 }
             }
 
-            return output
+            return output;
         }
 
-        public Double ForwardPropagnation()
+        /// <summary>
+        /// Train()
+        /// Entraine le neuronne.
+        /// </summary>
+        /// <param name="its">Nombre d'iterations à parcourir</param>
+        /// <param name="lr">Taux d'apprentissage</param>
+        public void Train(int its, Double lr)
         {
-            Double[] comp;
-            Double[] yPred;
+            Double activation = 0;
+            
 
-            for (int i = 0; i < Inputs.Length; i++)
+            for (int iteration = 0; iteration < its; iteration++)
             {
-                for (int j = 0; j < Inputs.Length; j++)
+                // Forward Pass
+                activation = Sigmoid(CalculOutput());
+
+                // Backward Pass
+                for (int i = 0; i < 7; i++)
                 {
-                    for (int k = 0; k < Weights.Length; k++)
-                    {
-                        comp = (Weights[k] * Inputs[i, j]) + 1;
 
-                        yPred = 1 / 1 + Math.Exp(comp);
-                    }
+
                 }
+
             }
+
+
+
 
         }
 
-        public void LearningRule()
-        {
-            List<double> correctedWeight = new List<double>(); 
 
-            for (int i = 0; i < Weights.Count(); i++)
-            {
-                correctedWeight.Add(Weights[i] + LearningRate * (ExcepetedOutputs[i] - ObservedOutputs[i]) *  // Entrée du poids i pour la sortie attentue);
-            }
-        }
+
+        //public void LearningRule()
+        //{
+        //    List<double> correctedWeight = new List<double>(); 
+
+        //    for (int i = 0; i < Weights.Count(); i++)
+        //    {
+        //        correctedWeight.Add(Weights[i] + LearningRate * (ExcepetedOutputs[i] - ObservedOutputs[i]) *  // Entrée du poids i pour la sortie attentue);
+        //    }
+        //}
     }
 }
